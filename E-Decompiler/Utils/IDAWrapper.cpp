@@ -39,7 +39,7 @@ std::string IDAWrapper::get_shortstring(unsigned int addr)
 		return "";
 	}
 	char buffer[255] = { 0 };
-	//没读取到完整的字节应该算是错误了
+	//娌¤鍙栧埌瀹屾暣鐨勫瓧鑺傚簲璇ョ畻鏄敊璇簡
 	if (get_bytes(buffer, sizeof(buffer), addr, GMB_READALL, NULL) != sizeof(buffer))
 	{
 		return "";

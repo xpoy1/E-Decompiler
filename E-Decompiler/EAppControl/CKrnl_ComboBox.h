@@ -2,7 +2,7 @@
 #include "EAppControl.h"
 
 
-//×éºÏ¿ò
+//ç»„åˆæ¡†
 
 struct CKrnl_ComboBox :public EAppControl
 {

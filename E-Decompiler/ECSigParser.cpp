@@ -135,7 +135,7 @@ qstring ECSigParser::GetSig_LongJmp(insn_t& ins)
 	qstring ret;
 	unsigned char* pData = SectionManager::LinearAddrToVirtualAddr(ins.ip);
 
-	//³¤Ìø×ªÍ³Ò»Ä£ºı´¦Àí
+	//é•¿è·³è½¬ç»Ÿä¸€æ¨¡ç³Šå¤„ç†
 	if (ins.size >= 5) {
 		ret.append(UCharToStr(pData[0]));
 		return ret;
@@ -180,7 +180,7 @@ qstring ECSigParser::GetSig_Call(insn_t& ins, qvector<qstring>& vec_saveSig,bool
 {
 	qstring ret;
 	if (ins.ops[0].type == o_near) {
-		//´íÎó»Øµ÷º¯Êı
+		//é”™è¯¯å›è°ƒå‡½æ•°
 		if (ins.ops[0].addr == m_KrnlJmp.Jmp_MReportError) {
 			ea_t lastInsAddr = ins.ip;
 			out_bSkipState = true;
@@ -195,20 +195,20 @@ qstring ECSigParser::GetSig_Call(insn_t& ins, qvector<qstring>& vec_saveSig,bool
 			}
 			else if (isJumpInst(LastIns.itype)) {
 				vec_saveSig[vec_saveSig.size() - 2] = "";
-				return getUTF8String("<´íÎó»Øµ÷>");
+				return getUTF8String("<é”™è¯¯å›è°ƒ>");
 			}
 			lastInsAddr = decode_prev_insn(&LastIns, lastInsAddr);
 			if (LastIns.itype == NN_push && LastIns.ops[0].type == o_imm) {
 				vec_saveSig[vec_saveSig.size() - 3] = "";
 				vec_saveSig[vec_saveSig.size() - 4] = "";
 			}
-			return getUTF8String("<´íÎó»Øµ÷>");
+			return getUTF8String("<é”™è¯¯å›è°ƒ>");
 		}
-		//µ÷ÓÃDLLÃüÁî
+		//è°ƒç”¨DLLå‘½ä»¤
 		if (ins.ops[0].addr == m_KrnlJmp.Jmp_MCallDllCmd) {
 			insn_t LastIns;
 			decode_prev_insn(&LastIns, ins.ip);
-			//ÅĞ¶ÏÉÏÒ»ÌõÖ¸ÁîÊÇ²»ÊÇmov eax,DLLĞòºÅ
+			//åˆ¤æ–­ä¸Šä¸€æ¡æŒ‡ä»¤æ˜¯ä¸æ˜¯mov eax,DLLåºå·
 			if (LastIns.itype == NN_mov && LastIns.ops[0].reg == 0 && LastIns.ops[1].type == o_imm) {
 				vec_saveSig[vec_saveSig.size() - 1] = "B8????????";
 				qstring DLLFuncName = ImportsParser::mVec_ImportsApi[LastIns.ops[1].value].ApiName;
@@ -216,20 +216,20 @@ qstring ECSigParser::GetSig_Call(insn_t& ins, qvector<qstring>& vec_saveSig,bool
 				return ret;
 			}
 		}
-		//ÏµÍ³ºËĞÄÖ§³Ö¿â»òÕßÈı·½Ö§³Ö¿â
+		//ç³»ç»Ÿæ ¸å¿ƒæ”¯æŒåº“æˆ–è€…ä¸‰æ–¹æ”¯æŒåº“
 		if (ins.ops[0].addr == m_KrnlJmp.Jmp_MCallKrnlLibCmd || ins.ops[0].addr==m_KrnlJmp.Jmp_MCallLibCmd) {
 			insn_t LastIns;
 			decode_prev_insn(&LastIns, ins.ip);
-			//ÅĞ¶ÏÉÏÒ»ÌõÖ¸ÁîÊÇ²»ÊÇmov ebx,ÃüÁîµØÖ·
+			//åˆ¤æ–­ä¸Šä¸€æ¡æŒ‡ä»¤æ˜¯ä¸æ˜¯mov ebx,å‘½ä»¤åœ°å€
 			if (LastIns.itype == NN_mov && LastIns.ops[0].reg == 3 && LastIns.ops[1].type == o_imm) {
 				vec_saveSig[vec_saveSig.size() - 1] = "BB????????";
 				if (bFuzzySig) {
-					return getUTF8String("<Î´ÖªÃüÁî>");
+					return getUTF8String("<æœªçŸ¥å‘½ä»¤>");
 				}
 				qstring KrnlLibName = get_name(LastIns.ops[1].value);
 				if (KrnlLibName.substr(0, 4) == "sub_") {
 					msg("[GetSig_Call]Function not Scanned,%a", LastIns.ops[1].value);
-					ret = getUTF8String("<Î´ÖªÃüÁî>");
+					ret = getUTF8String("<æœªçŸ¥å‘½ä»¤>");
 					return ret;
 				}
 				ret.sprnt("<%s>", KrnlLibName.c_str());
@@ -237,31 +237,31 @@ qstring ECSigParser::GetSig_Call(insn_t& ins, qvector<qstring>& vec_saveSig,bool
 			}
 		}
 		if (ins.ops[0].addr == m_KrnlJmp.Jmp_MReadProperty) {
-			ret = getUTF8String("<¶ÁÈ¡×é¼şÊôĞÔ>");
+			ret = getUTF8String("<è¯»å–ç»„ä»¶å±æ€§>");
 			return ret;
 		}
 		if (ins.ops[0].addr == m_KrnlJmp.Jmp_MWriteProperty) {
-			ret = getUTF8String("<ÉèÖÃ×é¼şÊôĞÔ>");
+			ret = getUTF8String("<è®¾ç½®ç»„ä»¶å±æ€§>");
 			return ret;
 		}
 		if (ins.ops[0].addr == m_KrnlJmp.Jmp_MMalloc) {
-			ret = getUTF8String("<·ÖÅäÄÚ´æ>");
+			ret = getUTF8String("<åˆ†é…å†…å­˜>");
 			return ret;
 		}
 		if (ins.ops[0].addr == m_KrnlJmp.Jmp_MRealloc) {
-			ret = getUTF8String("<ÖØĞÂ·ÖÅäÄÚ´æ>");
+			ret = getUTF8String("<é‡æ–°åˆ†é…å†…å­˜>");
 			return ret;
 		}
 		if (ins.ops[0].addr == m_KrnlJmp.Jmp_MFree) {
-			ret = getUTF8String("<ÊÍ·ÅÄÚ´æ>");
+			ret = getUTF8String("<é‡Šæ”¾å†…å­˜>");
 			return ret;
 		}
 		if (ins.ops[0].addr == m_KrnlJmp.Jmp_MExitProcess) {
-			ret = getUTF8String("<½áÊø>");
+			ret = getUTF8String("<ç»“æŸ>");
 			return ret;
 		}
 		if (ins.ops[0].addr == m_KrnlJmp.Jmp_MOtherHelp) {
-			ret = getUTF8String("<¸¨Öúº¯Êı>");
+			ret = getUTF8String("<è¾…åŠ©å‡½æ•°>");
 			return ret;
 		}
 		//call $addr+0x5
@@ -273,14 +273,14 @@ qstring ECSigParser::GetSig_Call(insn_t& ins, qvector<qstring>& vec_saveSig,bool
 			ret.sprnt("<%s>", getUTF8String(it->second.c_str()).c_str());
 			return ret;
 		}
-		//ÓÃ»§×Ô¶¨Òåº¯Êı
+		//ç”¨æˆ·è‡ªå®šä¹‰å‡½æ•°
 		qstring subFuncName = mSave_SubFunc[ins.ops[0].addr];
 		if (subFuncName.empty()) {
-			//·ÀÖ¹µİ¹éÑ­»·
+			//é˜²æ­¢é€’å½’å¾ªç¯
 			mSave_SubFunc[ins.ops[0].addr] = "<RecurFunc>";
 			subFuncName = GetFunctionMD5(ins.ops[0].addr);
 			if (subFuncName.empty()) {
-				//±íÊ¾¸Ãº¯ÊıÆäÊµÊÇÖÃÈë´úÂë
+				//è¡¨ç¤ºè¯¥å‡½æ•°å…¶å®æ˜¯ç½®å…¥ä»£ç 
 				ret = GetInsHex(ins);
 				mSave_SubFunc[ins.ops[0].addr] = ret;
 				return ret;
@@ -675,13 +675,13 @@ void ECSigParser::ScanMSig(const char* lpsigPath, ea_t rangeStart, ea_t rangeEnd
 	//	if (funcCount == 1) {
 	//		auto it = map_MSig.find(goodMD5);
 	//		//setFuncName(pFunc->start_ea, it->second.c_str(), SN_FORCE);
-	//		msg("%s%a--%s\n", getUTF8String("Ê¶±ğÄ£¿éº¯Êı").c_str(), pFunc->start_ea, getUTF8String(it->second.c_str()).c_str());
+	//		msg("%s%a--%s\n", getUTF8String("è¯†åˆ«æ¨¡å—å‡½æ•°").c_str(), pFunc->start_ea, getUTF8String(it->second.c_str()).c_str());
 	//		continue;
 	//	}
 	//	else if (funcCount != 0) {
 	//		auto it = map_MSig.find(goodMD5);
 	//		//setFuncName(pFunc->start_ea, it->second.c_str());
-	//		msg("%s%a--%s\n", getUTF8String("Ê¶±ğÄ£¿éº¯Êı").c_str(), pFunc->start_ea, getUTF8String(it->second.c_str()).c_str());
+	//		msg("%s%a--%s\n", getUTF8String("è¯†åˆ«æ¨¡å—å‡½æ•°").c_str(), pFunc->start_ea, getUTF8String(it->second.c_str()).c_str());
 	//		continue;
 	//	}
 	//	
@@ -703,7 +703,7 @@ void ECSigParser::ScanMSig(const char* lpsigPath, ea_t rangeStart, ea_t rangeEnd
 	//	if (funcCount) {
 	//		auto it = map_MSig.find(badMD5);
 	//		//setFuncName(pFunc->start_ea, it->second.c_str());
-	//		msg("%s%a--%s\n", getUTF8String("Ê¶±ğÄ£¿éº¯Êı").c_str(), pFunc->start_ea, getUTF8String(it->second.c_str()).c_str());
+	//		msg("%s%a--%s\n", getUTF8String("è¯†åˆ«æ¨¡å—å‡½æ•°").c_str(), pFunc->start_ea, getUTF8String(it->second.c_str()).c_str());
 	//		continue;
 	//	}
 	//	if (funcCount != 0) {
@@ -814,11 +814,11 @@ qstring ECSigParser::GetFunctionMD5(ea_t FuncStartAddr)
 		case NN_call:
 			tmpSig = GetSig_Call(CurrentIns, vec_SaveSig, bSkipNextIns);
 			break;
-		//nopÖ¸ÁîµÄ´¦ÀíÊÇ¸öÀıÍâ,Õâ¸öÊÇÔ¤Áô¸øÒ×ÓïÑÔµÄ»¨Ö¸ÁîµÄ
+		//nopæŒ‡ä»¤çš„å¤„ç†æ˜¯ä¸ªä¾‹å¤–,è¿™ä¸ªæ˜¯é¢„ç•™ç»™æ˜“è¯­è¨€çš„èŠ±æŒ‡ä»¤çš„
 		case NN_nop:
 			tmpSig = "";
 			break;
-		//·ÇÒ×ÓïÑÔÖ¸Áî(¹Û²ìÖĞ)
+		//éæ˜“è¯­è¨€æŒ‡ä»¤(è§‚å¯Ÿä¸­)
 		case NN_lea:
 		case NN_setnz:
 		case NN_setz:
@@ -845,7 +845,7 @@ qstring ECSigParser::GetFunctionMD5(ea_t FuncStartAddr)
 		case NN_retf:
 			tmpSig = GetInsHex(CurrentIns);
 			break;
-			//·ÇÒ×ÓïÑÔÖ¸Áî(¸ß¶ÈÈ·ÈÏ)
+			//éæ˜“è¯­è¨€æŒ‡ä»¤(é«˜åº¦ç¡®è®¤)
 		case NN_aaa:
 		case NN_aad:
 		case NN_aam:
@@ -885,7 +885,7 @@ qstring ECSigParser::GetFunctionMD5(ea_t FuncStartAddr)
 		case NN_vmovdqu:
 			tmpSig = GetInsHex(CurrentIns);
 			break;
-		//ÎŞĞè·ÖÎöµÄÖ¸Áî
+		//æ— éœ€åˆ†æçš„æŒ‡ä»¤
 		case NN_lods:
 		case NN_stos:
 		case NN_retn:
@@ -899,7 +899,7 @@ qstring ECSigParser::GetFunctionMD5(ea_t FuncStartAddr)
 
 		vec_SaveSig.push_back(tmpSig);
 		if (tmpSig.empty() && CurrentIns.itype != NN_nop) {
-			msg("%s--%a\n", getUTF8String("»ñÈ¡ÌØÕ÷Ê§°Ü").c_str(), startAddr);
+			msg("%s--%a\n", getUTF8String("è·å–ç‰¹å¾å¤±è´¥").c_str(), startAddr);
 		}
 		startAddr = startAddr + CurrentIns.size;
 

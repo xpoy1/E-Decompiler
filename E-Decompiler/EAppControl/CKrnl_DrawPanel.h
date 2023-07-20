@@ -1,7 +1,7 @@
 #pragma once
 #include "EAppControl.h"
 
-//»­°å
+//ç”»æ¿
 
 struct CKrnl_DrawPanel :public EAppControl
 {

@@ -10,30 +10,30 @@ std::string EAppControl::GetCommonEventName(int eventIndex)
 	switch (eventIndex)
 	{
 	case -1:
-		return "Êó±ê×ó¼ü±»°´ÏÂ";
+		return "é¼ æ ‡å·¦é”®è¢«æŒ‰ä¸‹";
 	case -2:
-		return "Êó±ê×ó¼ü±»·Å¿ª";
+		return "é¼ æ ‡å·¦é”®è¢«æ”¾å¼€";
 	case -3:
-		return "±»Ë«»÷";
+		return "è¢«åŒå‡»";
 	case -4:
-		return "Êó±êÓÒ¼ü±»°´ÏÂ";
+		return "é¼ æ ‡å³é”®è¢«æŒ‰ä¸‹";
 	case -5:
-		return "Êó±êÓÒ¼ü±»·Å¿ª";
+		return "é¼ æ ‡å³é”®è¢«æ”¾å¼€";
 	case -6:
-		return "Êó±êÎ»ÖÃ±»ÒÆ¶¯";
+		return "é¼ æ ‡ä½ç½®è¢«ç§»åŠ¨";
 	case -7:
-		return "»ñµÃ½¹µã";
+		return "è·å¾—ç„¦ç‚¹";
 	case -8:
-		return "Ê§È¥½¹µã";
+		return "å¤±å»ç„¦ç‚¹";
 	case -9:
-		return "°´ÏÂÄ³¼ü";
+		return "æŒ‰ä¸‹æŸé”®";
 	case -10:
-		return "·Å¿ªÄ³¼ü";
+		return "æ”¾å¼€æŸé”®";
 	case -11:
-		return "×Ö·ûÊäÈë";
+		return "å­—ç¬¦è¾“å…¥";
 	case -12:
-		return "¹öÂÖ±»¹ö¶¯";
+		return "æ»šè½®è¢«æ»šåŠ¨";
 	}
-	return "Î´ÖªÊÂ¼ş";
+	return "æœªçŸ¥äº‹ä»¶";
 
 }

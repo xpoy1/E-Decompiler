@@ -1,4 +1,4 @@
-﻿#include "EDecompiler.h"
+#include "EDecompiler.h"
 
 #include <auto.hpp>
 #include "Utils/IDAMenu.h"
@@ -10,7 +10,6 @@
 #include "./Module/ShowImports.h"
 #include "./Utils/Strings.h"
 
-hexdsp_t* hexdsp = NULL;
 
 ssize_t PluginUI_Callback(void* ud, int notification_code, va_list va)
 {

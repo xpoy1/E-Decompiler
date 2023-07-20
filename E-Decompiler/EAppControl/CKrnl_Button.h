@@ -1,7 +1,7 @@
 #pragma once
 #include "EAppControl.h"
 
-//°´Å¥
+//æŒ‰é’®
 
 struct CKrnl_Button :public EAppControl
 {

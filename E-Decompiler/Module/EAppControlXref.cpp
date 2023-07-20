@@ -16,8 +16,8 @@ EAppControlXref::EAppControlXref(ESymbol& s):symbolTable(s)
 
 void EAppControlXref::RegisterAction(void* owner)
 {
-	//注册窗口菜单
-	std::string menuName = LocalCpToUtf8("控件交叉引用");
+	//娉ㄥ唽绐楀彛鑿滃崟
+	std::string menuName = LocalCpToUtf8("鎺т欢浜ゅ弶寮曠敤");
 	const action_desc_t tmpXrefDesc = {
 	sizeof(action_desc_t),ACTION_EAPP_CONTROL_XREF,menuName.c_str(),this,
 	owner,nullptr,nullptr,0,ADF_OT_PLUGMOD };
@@ -100,14 +100,14 @@ int EAppControlXref::activate(action_activation_ctx_t* ctx)
 		return 0;
 	}
 
-	//遍历得到所有的引用
+	//閬嶅巻寰楀埌鎵�鏈夌殑寮曠敤
 	std::vector<unsigned int> cRefList = IDAWrapper::getAllCodeXrefAddr(symbolTable.krnlJmp.Jmp_MWriteProperty);
 	eAppControlXrefData tmpXrefData;
 	for (unsigned int n = 0; n < cRefList.size(); ++n) {
 		if (getRWXrefAddrText(cRefList[n],tmpXrefData.text)) {
 			tmpXrefData.type = XrefWriteProperty;
 			tmpXrefData.xRefAddr = cRefList[n];
-			tmpXrefData.text = "写属性_" + tmpXrefData.text;
+			tmpXrefData.text = "鍐欏睘鎬" + tmpXrefData.text;
 			allXrefData.push_back(tmpXrefData);
 		}
 	}
@@ -117,7 +117,7 @@ int EAppControlXref::activate(action_activation_ctx_t* ctx)
 		if (getRWXrefAddrText(cRefList[n], tmpXrefData.text)) {
 			tmpXrefData.type = XrefReadProperty;
 			tmpXrefData.xRefAddr = cRefList[n];
-			tmpXrefData.text = "读属性_" + tmpXrefData.text;
+			tmpXrefData.text = "璇诲睘鎬" + tmpXrefData.text;
 			allXrefData.push_back(tmpXrefData);
 		}
 	}
@@ -187,7 +187,7 @@ bool EAppControlXref::getExecuteXrefAddrText(unsigned int XrefAddr, std::string&
 	qstring funcName;
 	get_ea_name(&funcName, controlIns.ops[1].value);
 	outText.assign(funcName.c_str(),funcName.length());
-	//尝试去除类名
+	//灏濊瘯鍘婚櫎绫诲悕
 	int iIndex = outText.find('.');
 	if (iIndex != -1) {
 		outText = outText.substr(iIndex + 1);

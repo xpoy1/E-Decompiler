@@ -13,8 +13,8 @@ ECSigMaker::ECSigMaker(ESymbol& symbol):eSymbol(symbol)
 
 void ECSigMaker::RegisterAction(void* owner)
 {
-	//注册窗口菜单
-	std::string menuName = LocalCpToUtf8("生成易语言函数特征");
+	//娉ㄥ唽绐楀彛鑿滃崟
+	std::string menuName = LocalCpToUtf8("鐢熸垚鏄撹瑷�鍑芥暟鐗瑰緛");
 	const action_desc_t GenEsigDesc = {
 	sizeof(action_desc_t),ACTION_ECSIGMAKER,menuName.c_str(),this,
 	owner,nullptr,nullptr,0,ADF_OT_PLUGMOD};

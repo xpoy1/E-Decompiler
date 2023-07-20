@@ -9,10 +9,10 @@ unsigned char ReadUChar(char* pBuf);
 std::string ReadStr(unsigned char* pBuf);
 
 
-//十六到十,a -> 10
+//鍗佸叚鍒板崄,a -> 10
 unsigned char HexToBin(unsigned char HexCode);
 
-//枚举目录文件
+//鏋氫妇鐩綍鏂囦欢
 
 std::vector<std::string> enumDirectoryFiles(const char *dir);
 

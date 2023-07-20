@@ -75,7 +75,7 @@ int ShowImports(void* ud)
 	};
 
 	qstring title;
-	acp_utf8(&title, "ÓÃ»§µ¼Èë±í");
+	acp_utf8(&title, "ç”¨æˆ·å¯¼å…¥è¡¨");
 	chooser_ImportsInfo* pEventWindow = new chooser_ImportsInfo(title.c_str(), symbolTable);
 	pEventWindow->choose();
 	return 0;

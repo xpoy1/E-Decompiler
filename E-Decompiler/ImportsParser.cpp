@@ -46,7 +46,7 @@ int ImportsParser::MenuHandle_ShowImportsInfo()
 		}
 	};
 
-	qstring title = getUTF8String("ÓÃ»§µ¼Èë±í");
+	qstring title = getUTF8String("ç”¨æˆ·å¯¼å…¥è¡¨");
 	chooser_eImports* pUserChoose = new chooser_eImports(title.c_str());
 	pUserChoose->choose();
 	return 0;

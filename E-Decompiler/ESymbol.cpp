@@ -35,7 +35,7 @@ unsigned int krnln_GetIDGroupType(unsigned int ID)
 	return ID & 0xF000000;
 }
 
-//ÊÇ·ñÎª²Ëµ¥
+//æ˜¯å¦ä¸ºèœå•
 bool krnln_IsMenuItemID(unsigned int ID)
 {
 	return krnln_GetIDGroupType(ID) == 0x6000000 && krnln_GetIDSubType(ID) == 0x20000000;
@@ -81,7 +81,7 @@ bool ESymbol::LoadEStaticSymbol(unsigned int eHeadAddr, EComHead* eHead)
 {
 	clearControlData();
 
-	IDAWrapper::show_wait_box(LocalCpToUtf8("½âÎöÒ×ÓïÑÔÖ§³Ö¿â").c_str());
+	IDAWrapper::show_wait_box(LocalCpToUtf8("è§£ææ˜“è¯­è¨€æ”¯æŒåº“").c_str());
 	if (!loadELibInfomation(eHead->lpLibEntry, eHead->dwLibNum)) {
 		IDAWrapper::hide_wait_box();
 		return false;
@@ -89,7 +89,7 @@ bool ESymbol::LoadEStaticSymbol(unsigned int eHeadAddr, EComHead* eHead)
 	IDAWrapper::hide_wait_box();
 	
 	eSymbolFuncTypeMap.clear();
-	IDAWrapper::show_wait_box(LocalCpToUtf8("Ê¶±ğÖ§³Ö¿âº¯Êı").c_str());
+	IDAWrapper::show_wait_box(LocalCpToUtf8("è¯†åˆ«æ”¯æŒåº“å‡½æ•°").c_str());
 	if (!scanELibFunction(eHead->lpLibEntry, eHead->dwLibNum)) {
 		IDAWrapper::hide_wait_box();
 		return false;
@@ -107,29 +107,29 @@ bool ESymbol::LoadEStaticSymbol(unsigned int eHeadAddr, EComHead* eHead)
 		return false;
 	}
 
-	IDAWrapper::show_wait_box(LocalCpToUtf8("É¨ÃèÒ×ÓïÑÔÀà").c_str());
+	IDAWrapper::show_wait_box(LocalCpToUtf8("æ‰«ææ˜“è¯­è¨€ç±»").c_str());
 	scanEClassTable();
 	IDAWrapper::hide_wait_box();
 
 	if (eHead->lpEString != 0 && eHead->dwEStringSize != 0) {
-		//To do... Ò×ÓïÑÔ³£Á¿×ÊÔ´·¶Î§ÓĞÊ²Ã´ÓÃÄØ
+		//To do... æ˜“è¯­è¨€å¸¸é‡èµ„æºèŒƒå›´æœ‰ä»€ä¹ˆç”¨å‘¢
 	}
 
 	if (eHead->lpEWindow != 0 && eHead->dwEWindowSize > 4) {
-		IDAWrapper::show_wait_box(LocalCpToUtf8("½âÎöÒ×ÓïÑÔ¿Ø¼ş×ÊÔ´").c_str());
+		IDAWrapper::show_wait_box(LocalCpToUtf8("è§£ææ˜“è¯­è¨€æ§ä»¶èµ„æº").c_str());
 		loadGUIResource(eHead->lpEWindow, eHead->dwEWindowSize);
 		IDAWrapper::hide_wait_box();
 	}
 
 	if (eHead->dwApiCount) {
-		IDAWrapper::show_wait_box(LocalCpToUtf8("½âÎöÒ×ÓïÑÔµ¼Èë±í").c_str());
+		IDAWrapper::show_wait_box(LocalCpToUtf8("è§£ææ˜“è¯­è¨€å¯¼å…¥è¡¨").c_str());
 		loadUserImports(eHead->dwApiCount, eHead->lpModuleName, eHead->lpApiName);
 		IDAWrapper::hide_wait_box();
 	}
 	
 	setGuiEventName();
 
-	IDAWrapper::show_wait_box(LocalCpToUtf8("Ê¶±ğÄ£¿éº¯Êı").c_str());
+	IDAWrapper::show_wait_box(LocalCpToUtf8("è¯†åˆ«æ¨¡å—å‡½æ•°").c_str());
 	//ECSigScanner::Instance().ScanECSigFunction(this);
 	IDAWrapper::hide_wait_box();
 	return true;
@@ -157,7 +157,7 @@ bool ESymbol::loadELibInfomation(unsigned int lpLibStartAddr, unsigned int dwLib
 		IDAWrapper::get_bytes(&tmpLibInfo, sizeof(LIB_INFO), IDAWrapper::get_dword(lpLibStartAddr));
 		lpLibStartAddr = lpLibStartAddr + 4;
 
-		//ÅĞ¶ÏÊÇ·ñ·ûºÏÖ§³Ö¿â¸ñÊ½
+		//åˆ¤æ–­æ˜¯å¦ç¬¦åˆæ”¯æŒåº“æ ¼å¼
 		if (tmpLibInfo.m_dwLibFormatVer != 0x1312D65) {
 			continue;
 		}
@@ -195,12 +195,12 @@ bool ESymbol::scanELibFunction(unsigned int lpLibStartAddr, unsigned int dwLibCo
 		IDAWrapper::get_bytes(&tmpLibInfo, sizeof(LIB_INFO), IDAWrapper::get_dword(lpLibStartAddr));
 		lpLibStartAddr = lpLibStartAddr + 4;
 
-		//ÅĞ¶ÏÊÇ·ñ·ûºÏÖ§³Ö¿â¸ñÊ½
+		//åˆ¤æ–­æ˜¯å¦ç¬¦åˆæ”¯æŒåº“æ ¼å¼
 		if (tmpLibInfo.m_dwLibFormatVer != 0x1312D65) {
 			continue;
 		}
 
-		//Ö§³Ö¿âÈ±ÉÙº¯Êı
+		//æ”¯æŒåº“ç¼ºå°‘å‡½æ•°
 		if (!tmpLibInfo.m_nCmdCount || !tmpLibInfo.m_lpCmdsFunc) {
 			continue;
 		}
@@ -229,7 +229,7 @@ bool ESymbol::scanELibFunction(unsigned int lpLibStartAddr, unsigned int dwLibCo
 			if (!pFuncName) {
 				//qstring errorFuncName;
 				IDAWrapper::msg("[ScanLibFunction]Match Function Error,%a\n", funcAddr);
-				//errorFuncName.sprnt("Î´ÖªÃüÁî_%a", funcAddr);
+				//errorFuncName.sprnt("æœªçŸ¥å‘½ä»¤_%a", funcAddr);
 				//IDAWrapper::setFuncName(funcAddr, errorFuncName.c_str());
 				continue;
 			}
@@ -244,7 +244,7 @@ bool ESymbol::scanBasicFunction()
 {
 	TrieTree BASICTREE;
 	qstring LibPath;
-	LibPath.sprnt("%s\\esig\\Ò×ÓïÑÔ»ù´¡ÃüÁî.esig", IDAWrapper::idadir("plugins"));
+	LibPath.sprnt("%s\\esig\\æ˜“è¯­è¨€åŸºç¡€å‘½ä»¤.esig", IDAWrapper::idadir("plugins"));
 
 	std::map<ea_t, qstring> mMap_BasicFunc;
 	if (!BASICTREE.LoadSig(LibPath.c_str())) {
@@ -266,19 +266,19 @@ bool ESymbol::scanBasicFunction()
 			mMap_BasicFunc[pFunc->start_ea] = funcName;
 			IDAWrapper::setFuncName(pFunc->start_ea, funcName.c_str());
 		}
-		if (funcName == "ÎÄ±¾Ïà¼Ó") {
+		if (funcName == "æ–‡æœ¬ç›¸åŠ ") {
 			IDAWrapper::apply_cdecl(pFunc->start_ea, "char* __usercall strcat@<eax>(int argCount@<ecx>, ...);");
 			eSymbolFuncTypeMap[pFunc->start_ea] = eFunc_Strcat;
 		}
-		else if (funcName == "Á¬ĞøÊ¡ÂÔ²ÎÊı") {
+		else if (funcName == "è¿ç»­çœç•¥å‚æ•°") {
 			IDAWrapper::apply_cdecl(pFunc->start_ea, "void __usercall pushDefaultParam(int argCount@<ebx>);");
 			eSymbolFuncTypeMap[pFunc->start_ea] = eFunc_PushDefaultArg;
 			handleFuncPushDefaultArg(pFunc->start_ea);
 		}
-		else if (funcName == "ÎÄ±¾±È½Ï") {
+		else if (funcName == "æ–‡æœ¬æ¯”è¾ƒ") {
 			IDAWrapper::apply_cdecl(pFunc->start_ea, "int __cdecl strcmp(char* _Str1,char* _Str2);");
 		}
-		else if (funcName == "¼ÆËã¶àÎ¬Êı×éÏÂ±ê") {
+		else if (funcName == "è®¡ç®—å¤šç»´æ•°ç»„ä¸‹æ ‡") {
 			IDAWrapper::apply_cdecl(pFunc->start_ea, "int __usercall addMutilVecIndex@<edx>(int index@<eax>,int dim@<ecx>,DWORD* pBounds);");
 			eSymbolFuncTypeMap[pFunc->start_ea] = eFunc_CalMultiArrayIndex;
 		}
@@ -333,19 +333,19 @@ bool ESymbol::loadKrnlInterface(unsigned int lpKrnlEntry)
 		belowAddr += tmpIns.size;
 	} while (true);
 
-	IDAWrapper::setFuncName(krnlJmp.Jmp_MReportError, "´íÎó»Øµ÷");
-	IDAWrapper::setFuncName(krnlJmp.Jmp_MCallDllCmd, "DLLÃüÁî");
-	IDAWrapper::setFuncName(krnlJmp.Jmp_MCallLibCmd, "Èı·½Ö§³Ö¿âÃüÁî");
-	IDAWrapper::setFuncName(krnlJmp.Jmp_MCallKrnlLibCmd, "ºËĞÄÖ§³Ö¿âÃüÁî");
-	IDAWrapper::setFuncName(krnlJmp.Jmp_MReadProperty, "¶ÁÈ¡×é¼şÊôĞÔ");
-	IDAWrapper::setFuncName(krnlJmp.Jmp_MWriteProperty, "ÉèÖÃ×é¼şÊôĞÔ");
-	IDAWrapper::setFuncName(krnlJmp.Jmp_MMalloc, "·ÖÅäÄÚ´æ");
-	IDAWrapper::setFuncName(krnlJmp.Jmp_MRealloc, "ÖØĞÂ·ÖÅäÄÚ´æ");
-	IDAWrapper::setFuncName(krnlJmp.Jmp_MFree, "ÊÍ·ÅÄÚ´æ");
-	IDAWrapper::setFuncName(krnlJmp.Jmp_MExitProcess, "½áÊø");
-	IDAWrapper::setFuncName(krnlJmp.Jmp_MMessageLoop, "´°¿ÚÏûÏ¢Ñ­»·");
-	IDAWrapper::setFuncName(krnlJmp.Jmp_MLoadBeginWin, "ÔØÈëÆô¶¯´°¿Ú");
-	IDAWrapper::setFuncName(krnlJmp.Jmp_MOtherHelp, "¸¨Öúº¯Êı");
+	IDAWrapper::setFuncName(krnlJmp.Jmp_MReportError, "é”™è¯¯å›è°ƒ");
+	IDAWrapper::setFuncName(krnlJmp.Jmp_MCallDllCmd, "DLLå‘½ä»¤");
+	IDAWrapper::setFuncName(krnlJmp.Jmp_MCallLibCmd, "ä¸‰æ–¹æ”¯æŒåº“å‘½ä»¤");
+	IDAWrapper::setFuncName(krnlJmp.Jmp_MCallKrnlLibCmd, "æ ¸å¿ƒæ”¯æŒåº“å‘½ä»¤");
+	IDAWrapper::setFuncName(krnlJmp.Jmp_MReadProperty, "è¯»å–ç»„ä»¶å±æ€§");
+	IDAWrapper::setFuncName(krnlJmp.Jmp_MWriteProperty, "è®¾ç½®ç»„ä»¶å±æ€§");
+	IDAWrapper::setFuncName(krnlJmp.Jmp_MMalloc, "åˆ†é…å†…å­˜");
+	IDAWrapper::setFuncName(krnlJmp.Jmp_MRealloc, "é‡æ–°åˆ†é…å†…å­˜");
+	IDAWrapper::setFuncName(krnlJmp.Jmp_MFree, "é‡Šæ”¾å†…å­˜");
+	IDAWrapper::setFuncName(krnlJmp.Jmp_MExitProcess, "ç»“æŸ");
+	IDAWrapper::setFuncName(krnlJmp.Jmp_MMessageLoop, "çª—å£æ¶ˆæ¯å¾ªç¯");
+	IDAWrapper::setFuncName(krnlJmp.Jmp_MLoadBeginWin, "è½½å…¥å¯åŠ¨çª—å£");
+	IDAWrapper::setFuncName(krnlJmp.Jmp_MOtherHelp, "è¾…åŠ©å‡½æ•°");
 
 	eSymbolFuncTypeMap[krnlJmp.Jmp_MReadProperty] = eFunc_KrnlReadProerty;
 	eSymbolFuncTypeMap[krnlJmp.Jmp_MWriteProperty] = eFunc_KrnlWriteProperty;
@@ -367,11 +367,11 @@ bool ESymbol::loadKrnlInterface(unsigned int lpKrnlEntry)
 
 void ESymbol::parseControlBasciProperty(unsigned char* lpControlInfo,EAppControl* outControl)
 {
-	//ÎŞÓÃ×Ö·û´®1?
+	//æ— ç”¨å­—ç¬¦ä¸²1?
 	ReadStr(lpControlInfo);
 	lpControlInfo += qstrlen(lpControlInfo) + 1;
 
-	//´æ´¢Êı¾İ?
+	//å­˜å‚¨æ•°æ®?
 	ReadUInt(lpControlInfo);
 	lpControlInfo += 4;
 
@@ -387,15 +387,15 @@ void ESymbol::parseControlBasciProperty(unsigned char* lpControlInfo,EAppControl
 	unsigned int m_height = ReadUInt(lpControlInfo);
 	lpControlInfo += 4;
 
-	//ÖµÎª0,ÓÃÀ´´æ´¢LoadCursorA·µ»ØµÄ¾ä±úÖµµÄ
+	//å€¼ä¸º0,ç”¨æ¥å­˜å‚¨LoadCursorAè¿”å›çš„å¥æŸ„å€¼çš„
 	unsigned int hCURSOR = ReadUInt(lpControlInfo);
 	lpControlInfo += 4;
 
-	//¸¸¿Ø¼şID
+	//çˆ¶æ§ä»¶ID
 	unsigned int fatherControlId = ReadUInt(lpControlInfo);
 	lpControlInfo += 4;
 
-	//×Ó¿Ø¼şÊıÄ¿
+	//å­æ§ä»¶æ•°ç›®
 	unsigned int childControlCount = ReadUInt(lpControlInfo);
 	lpControlInfo += 4;
 
@@ -405,15 +405,15 @@ void ESymbol::parseControlBasciProperty(unsigned char* lpControlInfo,EAppControl
 		//out_Property.mVec_childControl.push_back(tmpChildControlId);
 	}
 
-	//Î´ÖªÆ«ÒÆ
+	//æœªçŸ¥åç§»
 	unsigned int offset2 = ReadUInt(lpControlInfo);
 	lpControlInfo += offset2 + 4;
 
-	//±ê¼Ç
+	//æ ‡è®°
 	std::string m_tag = ReadStr(lpControlInfo);
 	lpControlInfo += qstrlen(lpControlInfo) + 1;
 
-	//Î´ÖªµÄÖµ
+	//æœªçŸ¥çš„å€¼
 	lpControlInfo += 12;
 
 	int dwEventCount = ReadInt(lpControlInfo);
@@ -436,7 +436,7 @@ bool ESymbol::loadGUIResource(unsigned int lpGUIStart, unsigned int infoSize)
 	tmpGuiBuf.resize(infoSize);
 	IDAWrapper::get_bytes(&tmpGuiBuf[0], infoSize, lpGUIStart);
 
-	//µ±Ç°½âÎöµØÖ·
+	//å½“å‰è§£æåœ°å€
 	unsigned char* lpCurrentParseAddr = &tmpGuiBuf[0];
 
 	std::vector<unsigned int> vec_WindowId;
@@ -448,7 +448,7 @@ bool ESymbol::loadGUIResource(unsigned int lpGUIStart, unsigned int infoSize)
 		lpCurrentParseAddr += 4;
 	}
 
-	//±àÒëÆ÷ÒÅÁôÖµ?
+	//ç¼–è¯‘å™¨é—ç•™å€¼?
 	for (unsigned int n = 0; n < dwTotalWindowCount; ++n) {
 		//uint32 unknowId = ReadUInt(lpCurrentParseAddr);
 		lpCurrentParseAddr += 4;
@@ -458,45 +458,45 @@ bool ESymbol::loadGUIResource(unsigned int lpGUIStart, unsigned int infoSize)
 	for (unsigned int nIndexWindow = 0; nIndexWindow < dwTotalWindowCount; ++nIndexWindow) {
 		unsigned char* lpWindowInfo = lpCurrentParseAddr;
 
-		//ÔİÊ±Î´Öª
+		//æš‚æ—¶æœªçŸ¥
 		uint32 unKnownFieldA = ReadUInt(lpWindowInfo);
 		lpWindowInfo += 4;
 		uint32 unKnownFieldB = ReadUInt(lpWindowInfo);
 		lpWindowInfo += 4;
 
-		//½ÓÏÂÀ´¸ú×ÅÁ½¸öCString,¶¼Îª¿Õ
+		//æ¥ä¸‹æ¥è·Ÿç€ä¸¤ä¸ªCString,éƒ½ä¸ºç©º
 		lpWindowInfo += 8;
 
-		//µ¥¸ö´°¿ÚÖĞµÄ¿Ø¼ş×Ü¸öÊı
+		//å•ä¸ªçª—å£ä¸­çš„æ§ä»¶æ€»ä¸ªæ•°
 		uint32 dwTotalControlCount = ReadUInt(lpWindowInfo);
 		lpWindowInfo += 4;
 
-		//µ¥¸ö´°¿ÚÖĞµÄ¿Ø¼ş×ÜÕ¼ÓÃ´óĞ¡
+		//å•ä¸ªçª—å£ä¸­çš„æ§ä»¶æ€»å ç”¨å¤§å°
 		uint32 dwTotalControlSize = ReadUInt(lpWindowInfo);
 		lpWindowInfo += 4;
 
-		//¿ªÊ¼½âÎö¿Ø¼ş
+		//å¼€å§‹è§£ææ§ä»¶
 		unsigned char* lpControlArray = lpWindowInfo;
 		{
-			//½âÎö¿Ø¼şID,ÀıÈç0x160612BC
+			//è§£ææ§ä»¶ID,ä¾‹å¦‚0x160612BC
 			std::vector<unsigned int> vec_ControlId;
 			for (unsigned int j = 0; j < dwTotalControlCount; ++j) {
 				vec_ControlId.push_back(ReadUInt(lpControlArray));
 				lpControlArray += 4;
 			}
 
-			//½âÎö¿Ø¼şÆ«ÒÆ
+			//è§£ææ§ä»¶åç§»
 			std::vector<unsigned int> vec_ControlOffset;
 			for (unsigned int j = 0; j < dwTotalControlCount; ++j) {
 				vec_ControlOffset.push_back(ReadUInt(lpControlArray));
 				lpControlArray += 4;
 			}
 
-			//½âÎö¿Ø¼şÊôĞÔ
+			//è§£ææ§ä»¶å±æ€§
 			for (unsigned int nIndexControl = 0; nIndexControl < dwTotalControlCount; ++nIndexControl) {
 				unsigned char* lpControlInfo = lpControlArray + vec_ControlOffset[nIndexControl];
 
-				//¿Ø¼şÕ¼ÓÃµÄ´óĞ¡
+				//æ§ä»¶å ç”¨çš„å¤§å°
 				int32 dwControlSize = ReadInt(lpControlInfo);
 				lpControlInfo += 4;
 
@@ -506,7 +506,7 @@ bool ESymbol::loadGUIResource(unsigned int lpGUIStart, unsigned int infoSize)
 				unsigned int dwControlTypeId = ReadUInt(lpControlInfo);
 				lpControlInfo += 4;
 
-				//¹Ì¶¨µÄ20¸ö¿Õ×Ö½Ú,±£ÁôÊ¹ÓÃ?
+				//å›ºå®šçš„20ä¸ªç©ºå­—èŠ‚,ä¿ç•™ä½¿ç”¨?
 				lpControlInfo += 20;
 
 				EAppControl* eControlInfo = EAppControlFactory::Instance().CreateEAppControl(dwControlTypeId);
@@ -519,7 +519,7 @@ bool ESymbol::loadGUIResource(unsigned int lpGUIStart, unsigned int infoSize)
 					eControlInfo->controlName = ReadStr(lpControlInfo);
 					lpControlInfo += strlen((const char*)lpControlInfo) + 1;
 					if (eControlInfo->controlName.empty()) {
-						sprintf_s(sprinfBuf, "´°¿Ú0x%08X", eControlInfo->windowID);
+						sprintf_s(sprinfBuf, "çª—å£0x%08X", eControlInfo->windowID);
 						eControlInfo->controlName = sprinfBuf;
 					}
 					parseControlBasciProperty(lpControlInfo, eControlInfo);
@@ -597,7 +597,7 @@ bool ESymbol::handleFuncPushDefaultArg(unsigned int callAddr)
 
 bool ESymbol::scanEClassTable()
 {
-	//²»ĞÅÓĞÇø¶Î´óÓÚ0x1000000
+	//ä¸ä¿¡æœ‰åŒºæ®µå¤§äº0x1000000
 	qstring movClassTable;
 	movClassTable.sprnt("C7 03 ?? ?? ?? %02X", userCodeStartAddr >> 0x18);
 
@@ -618,7 +618,7 @@ bool ESymbol::scanEClassTable()
 		if (guessAddr < userCodeStartAddr) {
 			continue;
 		}
-		//ÅĞ¶ÏĞé±íÖĞÊÇ·ñº¬ÓĞ¿½±´º¯Êı,ÓĞ´ıÑéÖ¤
+		//åˆ¤æ–­è™šè¡¨ä¸­æ˜¯å¦å«æœ‰æ‹·è´å‡½æ•°,æœ‰å¾…éªŒè¯
 		auto copyHead = IDAWrapper::get_word(IDAWrapper::get_dword(guessAddr + 0x4));
 		if (copyHead != 0x6850) {
 			continue;
@@ -630,7 +630,7 @@ bool ESymbol::scanEClassTable()
 		return true;
 	}
 
-	//¸ù±¾ÎŞ·¨È·¶¨Ğé±íµÄ´óĞ¡,Òò´Ë¾¡¿ÉÄÜÀ©´ó
+	//æ ¹æœ¬æ— æ³•ç¡®å®šè™šè¡¨çš„å¤§å°,å› æ­¤å°½å¯èƒ½æ‰©å¤§
 	auto idati = (til_t*)get_idati();
 	for (std::unordered_set<unsigned int>::iterator it = guessClassTableList.begin(); it != guessClassTableList.end(); ++it) {
 		std::vector<unsigned int> vTable;

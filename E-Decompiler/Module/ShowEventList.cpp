@@ -77,7 +77,7 @@ int ShowEventList(void* ud)
 	};
 
 	qstring title;
-	acp_utf8(&title,"控件事件信息");
+	acp_utf8(&title,"鎺т欢浜嬩欢淇℃伅");
 	chooser_EventInfo* pEventWindow = new chooser_EventInfo(title.c_str(),symbolTable);
 	pEventWindow->choose();
 	return 0;

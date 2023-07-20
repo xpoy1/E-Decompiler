@@ -2,7 +2,7 @@
 #include "EAppControl.h"
 
 
-//ͼ�ΰ�ť
+//图形按钮
 
 struct CKrnl_PicBtn :public EAppControl
 {

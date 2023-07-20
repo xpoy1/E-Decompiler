@@ -21,13 +21,13 @@ private:
 private:
 	int (*m_callback)(void*);
 	void* m_userData;
-	//¶¯×÷µÄÄÚ²¿Ãû³Æ
+	//åŠ¨ä½œçš„å†…éƒ¨åç§°
 	qstring m_actionName;
-	//¶¯×÷µÄ±êÇ©Ãû³Æ
+	//åŠ¨ä½œçš„æ ‡ç­¾åç§°
 	qstring m_actionLabel;
 
-	//²Ëµ¥µÄÄÚ²¿Ãû³Æ
+	//èœå•çš„å†…éƒ¨åç§°
 	qstring m_menuName;
-	//²Ëµ¥µÄ±êÇ©Ãû³Æ
+	//èœå•çš„æ ‡ç­¾åç§°
 	qstring m_menuLabel;
 };
